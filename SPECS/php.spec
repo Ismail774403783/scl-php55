@@ -16,7 +16,7 @@
 # MySQL : system or scl one, or only mysqlnd*
 # Http  : system* 2.2 of scl one (2.4 ??)
 # readline or libedit (not available for el5)
-# * for current 
+# * for current
 
 # API/ABI check
 %global apiver      20121113
@@ -157,7 +157,7 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Name:     %{?scl_prefix}php
 Version:  5.5.6
-Release:  13%{?dist}
+Release:  14%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -165,7 +165,7 @@ License:  PHP and Zend and BSD
 Group:    Development/Languages
 URL:      http://www.php.net/
 
-Source0: php-%{version}%{?rcver}-strip.tar.xz
+Source0: http://www.php.net/distributions/php-%{version}%{?rcver}.tar.bz2
 Source1: php.conf
 Source2: php.ini
 Source3: macros.php
@@ -382,6 +382,9 @@ Provides: %{?scl_prefix}php-gmp, %{?scl_prefix}php-gmp%{?_isa}
 Provides: %{?scl_prefix}php-hash, %{?scl_prefix}php-hash%{?_isa}
 Provides: %{?scl_prefix}php-mhash = %{version}, %{?scl_prefix}php-mhash%{?_isa} = %{version}
 Provides: %{?scl_prefix}php-iconv, %{?scl_prefix}php-iconv%{?_isa}
+Provides: %{?scl_prefix}php-json, %{?scl_prefix}php-json%{?_isa}
+Provides: %{?scl_prefix}php-pecl-json = %{jsonver}, %{?scl_prefix}php-pecl-json%{?_isa} = %{jsonver}
+Provides: %{?scl_prefix}php-pecl(json) = %{jsonver}, %{?scl_prefix}php-pecl(json)%{?_isa} = %{jsonver}
 Provides: %{?scl_prefix}php-libxml, %{?scl_prefix}php-libxml%{?_isa}
 Provides: %{?scl_prefix}php-openssl, %{?scl_prefix}php-openssl%{?_isa}
 Provides: %{?scl_prefix}php-phar, %{?scl_prefix}php-phar%{?_isa}
@@ -392,12 +395,11 @@ Provides: %{?scl_prefix}php-sockets, %{?scl_prefix}php-sockets%{?_isa}
 Provides: %{?scl_prefix}php-spl, %{?scl_prefix}php-spl%{?_isa}
 Provides: %{?scl_prefix}php-standard = %{version}, %{?scl_prefix}php-standard%{?_isa} = %{version}
 Provides: %{?scl_prefix}php-tokenizer, %{?scl_prefix}php-tokenizer%{?_isa}
-# Temporary circular dep (to remove for bootstrap)
-#Requires: %{?scl_prefix}php-pecl-jsonc%{?_isa}
 %if %{with_zip}
 Provides: %{?scl_prefix}php-zip, %{?scl_prefix}php-zip%{?_isa}
 %endif
 Provides: %{?scl_prefix}php-zlib, %{?scl_prefix}php-zlib%{?_isa}
+%{!?scl:Obsoletes: php-openssl, php-pecl-json, php-json, php-pecl-phar, php-pecl-Fileinfo}
 %{?scl:Requires: %{scl}-runtime}
 
 %description common
@@ -482,7 +484,7 @@ Provides: %{?scl_prefix}php-pdo_sqlite, %{?scl_prefix}php-pdo_sqlite%{?_isa}
 %description pdo
 The php-pdo package contains a dynamic shared object that will add
 a database access abstraction layer to PHP.  This module provides
-a common interface for accessing MySQL, PostgreSQL or other 
+a common interface for accessing MySQL, PostgreSQL or other
 databases.
 
 %if %{with_libmysql}
@@ -616,11 +618,11 @@ The php-interbase package contains a dynamic shared object that will add
 database support through Interbase/Firebird to PHP.
 
 InterBase is the name of the closed-source variant of this RDBMS that was
-developed by Borland/Inprise. 
+developed by Borland/Inprise.
 
-Firebird is a commercially independent project of C and C++ programmers, 
-technical advisors and supporters developing and enhancing a multi-platform 
-relational database management system based on the source code released by 
+Firebird is a commercially independent project of C and C++ programmers,
+technical advisors and supporters developing and enhancing a multi-platform
+relational database management system based on the source code released by
 Inprise Corp (now known as Borland Software Corp) under the InterBase Public
 License.
 %endif
@@ -1113,7 +1115,7 @@ ln -sf ../configure
     --enable-dtrace \
 %endif
     $*
-if test $? != 0; then 
+if test $? != 0; then
   tail -500 config.log
   : configure failed
   exit 1
@@ -1181,6 +1183,7 @@ build --libdir=%{_libdir}/php \
 %else
       --without-sqlite3 \
 %endif
+      --enable-json=shared \
 %if %{with_zip}
       --enable-zip=shared \
 %if %{with_libzip}
@@ -1225,7 +1228,7 @@ without_shared="--without-gd \
       --disable-opcache \
       --disable-xmlreader --disable-xmlwriter \
       --without-sqlite3 --disable-phar --disable-fileinfo \
-      --without-pspell --disable-wddx \
+      --disable-json --without-pspell --disable-wddx \
       --without-curl --disable-posix --disable-xml \
       --disable-simplexml --disable-exif --without-gettext \
       --without-iconv --disable-ftp --without-bz2 --disable-ctype \
@@ -1450,7 +1453,7 @@ for mod in pgsql odbc ldap snmp xmlrpc \
     mbstring gd dom xsl soap bcmath dba xmlreader xmlwriter \
     simplexml bz2 calendar ctype exif ftp gettext gmp iconv \
     sockets tokenizer opcache \
-    pdo pdo_pgsql pdo_odbc pdo_sqlite \
+    pdo pdo_pgsql pdo_odbc pdo_sqlite json \
 %if %{with_sqlite3}
     sqlite3 \
 %endif
@@ -1537,8 +1540,8 @@ cat files.pdo_sqlite >> files.pdo
 cat files.sqlite3 >> files.pdo
 %endif
 
-# Package zip, curl, phar and fileinfo in -common.
-cat files.curl files.phar files.fileinfo \
+# Package json, zip, curl, phar and fileinfo in -common.
+cat files.json files.curl files.phar files.fileinfo \
     files.exif files.gettext files.iconv files.calendar \
     files.ftp files.bz2 files.ctype files.sockets \
     files.tokenizer > files.common
@@ -1730,7 +1733,7 @@ fi
 %files embedded
 %defattr(-,root,root,-)
 %{_libdir}/libphp5.so
-%{_libdir}/libphp5-%{version}%{?rcver}.so
+%{_libdir}/libphp5-%{embed_version}%{?rcver}.so
 %endif
 
 %files pgsql -f files.pgsql
@@ -1790,6 +1793,9 @@ fi
 
 
 %changelog
+* Wed Feb 04 2015 Trinity Quirk <trinity.quirk@cpanel.net> - 5.5.6-14
+- Added back in the upstream archive, replaced the excised JSON
+
 * Thu Oct 23 2014 Jan Kaluza <jkaluza@redhat.com> - 5.5.6-13
 - fileinfo: fix out-of-bounds read in elf note headers. CVE-2014-3710
 
