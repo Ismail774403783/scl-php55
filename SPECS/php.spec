@@ -370,7 +370,6 @@ Provides: %{?scl_prefix}php-core = %{version}, %{?scl_prefix}php-core%{?_isa} = 
 Provides: %{?scl_prefix}php-ctype, %{?scl_prefix}php-ctype%{?_isa}
 Provides: %{?scl_prefix}php-date, %{?scl_prefix}php-date%{?_isa}
 Provides: %{?scl_prefix}php-ereg, %{?scl_prefix}php-ereg%{?_isa}
-Provides: %{?scl_prefix}php-exif, %{?scl_prefix}php-exif%{?_isa}
 Provides: %{?scl_prefix}php-fileinfo, %{?scl_prefix}php-fileinfo%{?_isa}
 Provides: %{?scl_prefix}php-filter, %{?scl_prefix}php-filter%{?_isa}
 Provides: %{?scl_prefix}php-ftp, %{?scl_prefix}php-ftp%{?_isa}
@@ -472,6 +471,19 @@ http, https, ftp, gopher, telnet, dict, file, and ldap
 protocols. libcurl also supports HTTPS certificates, HTTP POST, HTTP
 PUT, FTP uploading, HTTP form based upload, proxies, cookies, and
 user+password authentication.
+
+%package exif
+Summary: A module for PHP applications that need to work with image metadata
+Group: Development/Languages
+License: PHP
+Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Provides: %{?scl_prefix}php-exif, %{?scl_prefix}php-exif%{?_isa}
+
+%description exif
+The php-exif package delivers a module which will allow PHP scripts to
+work with image meta data. For example, you may use exif functions to
+read meta data of pictures taken from digital cameras by working with
+information stored in the headers of the JPEG and TIFF images.
 
 %if %{with_imap}
 %package imap
@@ -1577,7 +1589,7 @@ cat files.sqlite3 >> files.pdo
 
 # Package json, zip, phar and fileinfo in -common.
 cat files.json files.phar files.fileinfo \
-    files.exif files.gettext files.iconv \
+    files.gettext files.iconv \
     files.ftp files.ctype files.sockets \
     files.tokenizer > files.common
 %if %{with_zip}
@@ -1774,6 +1786,7 @@ fi
 %files bz2 -f files.bz2
 %files calendar -f files.calendar
 %files curl -f files.curl
+%files exif -f files.exif
 %files pgsql -f files.pgsql
 %if %{with_libmysql}
 %files mysql -f files.mysql
