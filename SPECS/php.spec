@@ -371,7 +371,6 @@ Provides: %{?scl_prefix}php-ctype, %{?scl_prefix}php-ctype%{?_isa}
 Provides: %{?scl_prefix}php-date, %{?scl_prefix}php-date%{?_isa}
 Provides: %{?scl_prefix}php-ereg, %{?scl_prefix}php-ereg%{?_isa}
 Provides: %{?scl_prefix}php-filter, %{?scl_prefix}php-filter%{?_isa}
-Provides: %{?scl_prefix}php-gettext, %{?scl_prefix}php-gettext%{?_isa}
 Provides: %{?scl_prefix}php-gmp, %{?scl_prefix}php-gmp%{?_isa}
 Provides: %{?scl_prefix}php-hash, %{?scl_prefix}php-hash%{?_isa}
 Provides: %{?scl_prefix}php-mhash = %{version}, %{?scl_prefix}php-mhash%{?_isa} = %{version}
@@ -513,6 +512,21 @@ control to the executing script. If you only wish to read from or
 write to a file on an FTP server, consider using the ftp:// wrapper
 with the %{?scl_prefix}php-filesystem package which provides a simpler
 and more intuitive interface.
+
+%package gettext
+Summary: A module for PHP applications that need native language support
+Group: Development/Languages
+License: PHP
+Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Provides: %{?scl_prefix}php-gettext, %{?scl_prefix}php-gettext%{?_isa}
+
+%description gettext
+The php-gettext package delivers a module which will allow PHP scripts
+to access an NLS (Native Language Support) API which can be used to
+internationalize your PHP applications. Please see the gettext
+documentation for your system for a thorough explanation of these
+functions or view the docs at
+http://www.gnu.org/software/gettext/manual/gettext.html.
 
 %if %{with_imap}
 %package imap
@@ -1618,7 +1632,7 @@ cat files.sqlite3 >> files.pdo
 
 # Package json, zip, and phar in -common.
 cat files.json files.phar \
-    files.gettext files.iconv \
+    files.iconv \
     files.ctype files.sockets \
     files.tokenizer > files.common
 %if %{with_zip}
@@ -1818,6 +1832,7 @@ fi
 %files exif -f files.exif
 %files fileinfo -f files.fileinfo
 %files ftp -f files.ftp
+%files gettext -f files.gettext
 %files pgsql -f files.pgsql
 %if %{with_libmysql}
 %files mysql -f files.mysql
