@@ -368,7 +368,6 @@ Provides: %{?scl_prefix}php(language)%{?_isa} = %{version}
 # Provides for all builtin/shared modules:
 Provides: %{?scl_prefix}php-core = %{version}, %{?scl_prefix}php-core%{?_isa} = %{version}
 Provides: %{?scl_prefix}php-ctype, %{?scl_prefix}php-ctype%{?_isa}
-Provides: %{?scl_prefix}php-curl, %{?scl_prefix}php-curl%{?_isa}
 Provides: %{?scl_prefix}php-date, %{?scl_prefix}php-date%{?_isa}
 Provides: %{?scl_prefix}php-ereg, %{?scl_prefix}php-ereg%{?_isa}
 Provides: %{?scl_prefix}php-exif, %{?scl_prefix}php-exif%{?_isa}
@@ -457,6 +456,22 @@ Provides: %{?scl_prefix}php-calendar, %{?scl_prefix}php-calendar%{?_isa}
 %description calendar
 The php-calendar package delivers a module which will allow PHP scripts to
 do date and time conversions and calculations.
+
+%package curl
+Summary: A module for PHP applications that need to interface with curl
+Group: Development/Languages
+License: PHP
+Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Provides: %{?scl_prefix}php-curl, %{?scl_prefix}php-curl%{?_isa}
+
+%description curl
+The php-calendar package delivers a module which will allow PHP
+scripts to connect and communicate to many different types of servers
+with many different types of protocols. libcurl currently supports the
+http, https, ftp, gopher, telnet, dict, file, and ldap
+protocols. libcurl also supports HTTPS certificates, HTTP POST, HTTP
+PUT, FTP uploading, HTTP form based upload, proxies, cookies, and
+user+password authentication.
 
 %if %{with_imap}
 %package imap
@@ -1560,8 +1575,8 @@ cat files.pdo_sqlite >> files.pdo
 cat files.sqlite3 >> files.pdo
 %endif
 
-# Package json, zip, curl, phar and fileinfo in -common.
-cat files.json files.curl files.phar files.fileinfo \
+# Package json, zip, phar and fileinfo in -common.
+cat files.json files.phar files.fileinfo \
     files.exif files.gettext files.iconv \
     files.ftp files.ctype files.sockets \
     files.tokenizer > files.common
@@ -1758,6 +1773,7 @@ fi
 
 %files bz2 -f files.bz2
 %files calendar -f files.calendar
+%files curl -f files.curl
 %files pgsql -f files.pgsql
 %if %{with_libmysql}
 %files mysql -f files.mysql
