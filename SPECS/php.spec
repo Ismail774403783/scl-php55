@@ -374,7 +374,6 @@ Provides: %{?scl_prefix}php-filter, %{?scl_prefix}php-filter%{?_isa}
 Provides: %{?scl_prefix}php-gmp, %{?scl_prefix}php-gmp%{?_isa}
 Provides: %{?scl_prefix}php-hash, %{?scl_prefix}php-hash%{?_isa}
 Provides: %{?scl_prefix}php-mhash = %{version}, %{?scl_prefix}php-mhash%{?_isa} = %{version}
-Provides: %{?scl_prefix}php-iconv, %{?scl_prefix}php-iconv%{?_isa}
 Provides: %{?scl_prefix}php-json, %{?scl_prefix}php-json%{?_isa}
 Provides: %{?scl_prefix}php-pecl-json = %{jsonver}, %{?scl_prefix}php-pecl-json%{?_isa} = %{jsonver}
 Provides: %{?scl_prefix}php-pecl(json) = %{jsonver}, %{?scl_prefix}php-pecl(json)%{?_isa} = %{jsonver}
@@ -527,6 +526,24 @@ internationalize your PHP applications. Please see the gettext
 documentation for your system for a thorough explanation of these
 functions or view the docs at
 http://www.gnu.org/software/gettext/manual/gettext.html.
+
+%package iconv
+Summary: A module for PHP applications that need to convert character sets
+Group: Development/Languages
+License: PHP
+Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Provides: %{?scl_prefix}php-iconv, %{?scl_prefix}php-iconv%{?_isa}
+
+%description iconv
+The php-iconv package delivers a module which will allow PHP scripts
+to access the iconv character set conversion facility. With this
+module, you can turn a string represented by a local character set
+into the one represented by another character set, which may be the
+Unicode character set. Supported character sets depend on the iconv
+implementation of your system. Note that the iconv function on some
+systems may not work as you expect. In such case, it would be a good
+idea to install the GNU libiconv library. It will most likely end up
+with more consistent results.
 
 %if %{with_imap}
 %package imap
@@ -1632,7 +1649,6 @@ cat files.sqlite3 >> files.pdo
 
 # Package json, zip, and phar in -common.
 cat files.json files.phar \
-    files.iconv \
     files.ctype files.sockets \
     files.tokenizer > files.common
 %if %{with_zip}
@@ -1833,6 +1849,7 @@ fi
 %files fileinfo -f files.fileinfo
 %files ftp -f files.ftp
 %files gettext -f files.gettext
+%files iconv -f files.iconv
 %files pgsql -f files.pgsql
 %if %{with_libmysql}
 %files mysql -f files.mysql
