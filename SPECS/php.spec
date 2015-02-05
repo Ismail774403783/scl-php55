@@ -386,9 +386,6 @@ Provides: %{?scl_prefix}php-session, %{?scl_prefix}php-session%{?_isa}
 Provides: %{?scl_prefix}php-spl, %{?scl_prefix}php-spl%{?_isa}
 Provides: %{?scl_prefix}php-standard = %{version}, %{?scl_prefix}php-standard%{?_isa} = %{version}
 Provides: %{?scl_prefix}php-tokenizer, %{?scl_prefix}php-tokenizer%{?_isa}
-%if %{with_zip}
-Provides: %{?scl_prefix}php-zip, %{?scl_prefix}php-zip%{?_isa}
-%endif
 Provides: %{?scl_prefix}php-zlib, %{?scl_prefix}php-zlib%{?_isa}
 %{!?scl:Obsoletes: php-openssl, php-pecl-json, php-json, php-pecl-phar, php-pecl-Fileinfo}
 %{?scl:Requires: %{scl}-runtime}
@@ -987,6 +984,20 @@ BuildRequires: enchant-devel >= 1.2.4
 %description enchant
 The php-enchant package contains a dynamic shared object that will add
 support for using the enchant library to PHP.
+%endif
+
+%if %{with_zip}
+%package zip
+Summary: A module for PHP applications that need to handle .zip files
+Group: Development/Languages
+License: PHP
+Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Provides: %{?scl_prefix}php-zip, %{?scl_prefix}php-zip%{?_isa}
+
+%description zip
+The php-zip package delivers a module which will allow PHP scripts
+to transparently read or write ZIP compressed archives and the files
+inside them.
 %endif
 
 
@@ -1659,13 +1670,10 @@ cat files.pdo_sqlite >> files.pdo
 cat files.sqlite3 >> files.pdo
 %endif
 
-# Package json, zip, and phar in -common.
+# Package json and phar in -common.
 cat files.json files.phar \
     files.ctype \
     files.tokenizer > files.common
-%if %{with_zip}
-cat files.zip >> files.common
-%endif
 
 # The default Zend OPcache blacklist file
 install -m 644 opcache-default.blacklist $RPM_BUILD_ROOT%{_sysconfdir}/php.d/opcache-default.blacklist
@@ -1917,6 +1925,9 @@ fi
 %files mysqlnd -f files.mysqlnd
 %files opcache -f files.opcache
 %config(noreplace) %{_sysconfdir}/php.d/opcache-default.blacklist
+%if %{with_zip}
+%files zip -f files.zip
+%endif
 
 
 %changelog
