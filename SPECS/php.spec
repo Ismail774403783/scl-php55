@@ -370,7 +370,6 @@ Provides: %{?scl_prefix}php-core = %{version}, %{?scl_prefix}php-core%{?_isa} = 
 Provides: %{?scl_prefix}php-ctype, %{?scl_prefix}php-ctype%{?_isa}
 Provides: %{?scl_prefix}php-date, %{?scl_prefix}php-date%{?_isa}
 Provides: %{?scl_prefix}php-ereg, %{?scl_prefix}php-ereg%{?_isa}
-Provides: %{?scl_prefix}php-fileinfo, %{?scl_prefix}php-fileinfo%{?_isa}
 Provides: %{?scl_prefix}php-filter, %{?scl_prefix}php-filter%{?_isa}
 Provides: %{?scl_prefix}php-ftp, %{?scl_prefix}php-ftp%{?_isa}
 Provides: %{?scl_prefix}php-gettext, %{?scl_prefix}php-gettext%{?_isa}
@@ -484,6 +483,20 @@ The php-exif package delivers a module which will allow PHP scripts to
 work with image meta data. For example, you may use exif functions to
 read meta data of pictures taken from digital cameras by working with
 information stored in the headers of the JPEG and TIFF images.
+
+%package fileinfo
+Summary: A module for PHP applications that need to detect file types
+Group: Development/Languages
+License: PHP
+Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Provides: %{?scl_prefix}php-fileinfo, %{?scl_prefix}php-fileinfo%{?_isa}
+
+%description fileinfo
+The php-fileinfo package delivers a module which will allow PHP
+scripts to try to guess the content type and encoding of a file by
+looking for certain magic byte sequences at specific positions within
+the file. While this is not a bullet proof approach the heuristics
+used do a very good job.
 
 %if %{with_imap}
 %package imap
@@ -1587,8 +1600,8 @@ cat files.pdo_sqlite >> files.pdo
 cat files.sqlite3 >> files.pdo
 %endif
 
-# Package json, zip, phar and fileinfo in -common.
-cat files.json files.phar files.fileinfo \
+# Package json, zip, and phar in -common.
+cat files.json files.phar \
     files.gettext files.iconv \
     files.ftp files.ctype files.sockets \
     files.tokenizer > files.common
@@ -1787,6 +1800,7 @@ fi
 %files calendar -f files.calendar
 %files curl -f files.curl
 %files exif -f files.exif
+%files fileinfo -f files.fileinfo
 %files pgsql -f files.pgsql
 %if %{with_libmysql}
 %files mysql -f files.mysql
