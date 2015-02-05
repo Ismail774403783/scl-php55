@@ -371,7 +371,6 @@ Provides: %{?scl_prefix}php-ctype, %{?scl_prefix}php-ctype%{?_isa}
 Provides: %{?scl_prefix}php-date, %{?scl_prefix}php-date%{?_isa}
 Provides: %{?scl_prefix}php-ereg, %{?scl_prefix}php-ereg%{?_isa}
 Provides: %{?scl_prefix}php-filter, %{?scl_prefix}php-filter%{?_isa}
-Provides: %{?scl_prefix}php-ftp, %{?scl_prefix}php-ftp%{?_isa}
 Provides: %{?scl_prefix}php-gettext, %{?scl_prefix}php-gettext%{?_isa}
 Provides: %{?scl_prefix}php-gmp, %{?scl_prefix}php-gmp%{?_isa}
 Provides: %{?scl_prefix}php-hash, %{?scl_prefix}php-hash%{?_isa}
@@ -497,6 +496,23 @@ scripts to try to guess the content type and encoding of a file by
 looking for certain magic byte sequences at specific positions within
 the file. While this is not a bullet proof approach the heuristics
 used do a very good job.
+
+%package ftp
+Summary: A module for PHP applications that need full FTP protocol support
+Group: Development/Languages
+License: PHP
+Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Provides: %{?scl_prefix}php-ftp, %{?scl_prefix}php-ftp%{?_isa}
+
+%description ftp
+The php-ftp package delivers a module which will allow PHP scripts
+client access to files servers speaking the File Transfer Protocol
+(FTP) as defined in http://www.faqs.org/rfcs/rfc959. This extension is
+meant for detailed access to an FTP server providing a wide range of
+control to the executing script. If you only wish to read from or
+write to a file on an FTP server, consider using the ftp:// wrapper
+with the %{?scl_prefix}php-filesystem package which provides a simpler
+and more intuitive interface.
 
 %if %{with_imap}
 %package imap
@@ -1603,7 +1619,7 @@ cat files.sqlite3 >> files.pdo
 # Package json, zip, and phar in -common.
 cat files.json files.phar \
     files.gettext files.iconv \
-    files.ftp files.ctype files.sockets \
+    files.ctype files.sockets \
     files.tokenizer > files.common
 %if %{with_zip}
 cat files.zip >> files.common
@@ -1801,6 +1817,7 @@ fi
 %files curl -f files.curl
 %files exif -f files.exif
 %files fileinfo -f files.fileinfo
+%files ftp -f files.ftp
 %files pgsql -f files.pgsql
 %if %{with_libmysql}
 %files mysql -f files.mysql
