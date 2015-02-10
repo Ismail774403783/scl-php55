@@ -637,6 +637,18 @@ this package and the php package.
 
 This package use the MySQL Native Driver
 
+%package posix
+Summary: Modules for PHP scripts that need access to POSIX functions
+Group: Development/Languages
+License: PHP
+Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Provides: %{?scl_prefix}php-posix, %{?scl_prefix}php-posix%{?_isa}
+
+%description posix
+The php-posix package adds a PHP interface to those functions defined
+in the IEEE 1003.1 (POSIX.1) standards document which are not
+accessible through other means.
+
 %package pgsql
 Summary: A PostgreSQL database module for PHP
 Group: Development/Languages
@@ -661,7 +673,6 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
-Provides: %{?scl_prefix}php-posix, %{?scl_prefix}php-posix%{?_isa}
 Provides: %{?scl_prefix}php-shmop, %{?scl_prefix}php-shmop%{?_isa}
 Provides: %{?scl_prefix}php-sysvsem, %{?scl_prefix}php-sysvsem%{?_isa}
 Provides: %{?scl_prefix}php-sysvshm, %{?scl_prefix}php-sysvshm%{?_isa}
@@ -1660,8 +1671,8 @@ cat files.pdo_odbc >> files.odbc
 cat files.pdo_firebird >> files.interbase
 %endif
 
-# sysv* and posix in packaged in php-process
-cat files.shmop files.sysv* files.posix > files.process
+# sysv* packaged in php-process
+cat files.shmop files.sysv* > files.process
 
 # Package sqlite3 and pdo_sqlite with pdo; isolating the sqlite dependency
 # isn't useful at this time since rpm itself requires sqlite.
@@ -1871,6 +1882,7 @@ fi
 %files gettext -f files.gettext
 %files iconv -f files.iconv
 %files sockets -f files.sockets
+%files posix -f files.posix
 %files pgsql -f files.pgsql
 %if %{with_libmysql}
 %files mysql -f files.mysql
