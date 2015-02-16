@@ -1,6 +1,7 @@
+%{!?scl:%global scl php55}
 %if 0%{?scl:1}
 %global _scl_prefix /opt/cpanel
-%scl_package php
+%scl_package php55
 %else
 %global pkg_name          %{name}
 %global _root_sysconfdir  %{_sysconfdir}
@@ -244,7 +245,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9, %{db_devel}
 BuildRequires: pam-devel
-BuildRequires: libstdc++-devel, openssl-devel
+BuildRequires: libstdc++-devel, openssl-devel, scl-utils-build
 %if %{with_sqlite3}
 # For SQLite3 extension
 BuildRequires: sqlite-devel >= 3.6.0
