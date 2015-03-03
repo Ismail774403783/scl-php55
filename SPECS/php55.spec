@@ -117,7 +117,7 @@
 %global isasuffix %nil
 %endif
 
-%if 0%{?fedora} < 12 && 0%{?rhel} < 6
+%if 0%{?fedora} < 12 && 0%{?rhel} < 8
 %global with_dtrace 0
 %else
 %global with_dtrace 1
