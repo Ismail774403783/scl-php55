@@ -13,18 +13,13 @@
 %global _root_initddir    %{_initddir}
 %endif
 
-# thing to see
-# MySQL : system or scl one, or only mysqlnd*
-# Http  : system* 2.2 of scl one (2.4 ??)
-# readline or libedit (not available for el5)
-# * for current
-
 # API/ABI check
 %global apiver      20121113
 %global zendver     20121212
 %global pdover      20080721
+
 # Extension version
-%global opcachever  7.0.3-dev
+%global opcachever  7.0.4-dev
 
 # Adds -z now to the linker flags
 %global _hardened_build 1
@@ -117,7 +112,7 @@
 %global isasuffix %nil
 %endif
 
-%if 0%{?fedora} < 12 && 0%{?rhel} < 8
+%if 0%{?fedora} < 12 && 0%{?rhel} < 6
 %global with_dtrace 0
 %else
 %global with_dtrace 1
@@ -156,9 +151,10 @@
 %endif
 
 Summary:  PHP scripting language for creating dynamic web sites
+Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.5.6
-Release:  14%{?dist}
+Version:  5.5.22
+Release:  0%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -167,7 +163,6 @@ Group:    Development/Languages
 URL:      http://www.php.net/
 
 Source0: http://www.php.net/distributions/php-%{version}%{?rcver}.tar.bz2
-Source1: php.conf
 Source2: php.ini
 Source3: macros.php
 Source4: php-fpm.conf
@@ -175,70 +170,24 @@ Source5: php-fpm-www.conf
 Source6: php-fpm.service
 Source7: php-fpm.logrotate
 Source8: php-fpm.sysconfig
-Source9: php.modconf
 Source11: php-fpm.init
-Source12: strip.sh
 # Configuration files for some extensions
 Source50: opcache.ini
 Source51: opcache-default.blacklist
 
-# Build fixes
-Patch5: php-5.2.0-includedir.patch
-Patch6: php-5.2.4-embed.patch
-Patch7: php-5.3.0-recode.patch
-Patch8: php-5.4.7-libdb.patch
+# Allow us to configure imap and recode at same time, but adjust conflicts
+# to prevent usage at same time.
+Patch7: php-5.3.0-recode.centos.patch
 
-# Fixes for extension modules
-# https://bugs.php.net/63171 no odbc call during timeout
-Patch21: php-5.4.7-odbctimer.patch
+# Use the system timezone database, instead of the one distributed by PHP
+Patch42: php-5.3.1-systzdata-v10.centos.patch
 
-# Functional changes
-Patch40: php-5.4.0-dlopen.patch
-Patch42: php-5.3.1-systzdata-v10.patch
-# See http://bugs.php.net/53436
-Patch43: php-5.4.0-phpize.patch
-# Use system libzip instead of bundled one
-Patch44: php-5.5.2-system-libzip.patch
-# Use -lldap_r for OpenLDAP
-Patch45: php-5.4.8-ldap_r.patch
-# Make php_config.h constant across builds
-Patch46: php-5.4.9-fixheader.patch
-# drop "Configure command" from phpinfo output
-Patch47: php-5.4.9-phpinfo.patch
-# Allow multiple paths in ini_scan_dir
-Patch48: php-5.5.6-iniscan.patch
+# Prevent pear package from dragging in devel, which drags in a lot of
+# stuff for a production machine: https://bugzilla.redhat.com/show_bug.cgi?id=657812
+Patch43: php-5.4.0-phpize.centos.patch
 
-# Security fixes
-Patch102: php-5.5.6-CVE-2013-6420.patch
-Patch103: php-5.5.6-CVE-2013-7226.patch
-Patch104: php-5.5.6-CVE-2014-1943.patch
-Patch105: php-5.5.6-CVE-2013-6712.patch
-Patch106: php-5.5.6-CVE-2013-7327.patch
-Patch107: php-5.5.6-CVE-2014-2270.patch
-Patch108: php-5.5.6-CVE-2013-7345.patch
-Patch109: php-5.5.6-CVE-2014-0237.patch
-Patch110: php-5.5.6-CVE-2014-0238.patch
-Patch111: php-5.5.6-CVE-2014-3479.patch
-Patch112: php-5.5.6-CVE-2014-3480.patch
-Patch113: php-5.5.6-CVE-2014-4721.patch
-Patch114: php-5.5.6-CVE-2014-4049.patch
-Patch115: php-5.5.6-CVE-2014-3515.patch
-Patch116: php-5.5.6-CVE-2014-0207.patch
-Patch117: php-5.5.6-CVE-2014-3487.patch
-Patch118: php-5.5.6-CVE-2014-2497.patch
-Patch119: php-5.5.6-CVE-2014-3478.patch
-Patch120: php-5.5.6-CVE-2014-3538.patch
-Patch121: php-5.5.6-CVE-2014-3587.patch
-Patch122: php-5.5.6-CVE-2014-5120.patch
-Patch123: php-5.5.6-CVE-2014-4698.patch
-Patch124: php-5.5.6-CVE-2014-4670.patch
-Patch125: php-5.5.6-CVE-2014-3597.patch
-Patch126: php-5.5.6-CVE-2014-3668.patch
-Patch127: php-5.5.6-CVE-2014-3669.patch
-Patch128: php-5.5.6-CVE-2014-3670.patch
-Patch129: php-5.5.6-CVE-2014-3710.patch
-
-# Fixes for tests
+# cPanel patches
+Patch100: php-5.5.x-mail-header.cpanel.patch
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -270,6 +219,7 @@ BuildRequires: libzip-devel <  0.11
 %endif
 %if %{with_dtrace}
 BuildRequires: systemtap-sdt-devel
+BuildRequires: python
 %endif
 
 
@@ -1018,54 +968,10 @@ inside them.
 
 %setup -q -n php-%{version}%{?rcver}
 
-%patch5 -p1 -b .includedir
-%patch6 -p1 -b .embed
 %patch7 -p1 -b .recode
-%patch8 -p1 -b .libdb
-
-%patch21 -p1 -b .odbctimer
-
-%patch40 -p1 -b .dlopen
 %patch42 -p1 -b .systzdata
-%patch43 -p1 -b .headers
-%if %{with_libzip}
-%patch44 -p1 -b .systzip
-%endif
-%if 0%{?fedora} >= 18 || 0%{?rhel} >= 7
-%patch45 -p1 -b .ldap_r
-%endif
-%patch46 -p1 -b .fixheader
-%patch47 -p1 -b .phpinfo
-%patch48 -p1 -b .iniscan
-
-%patch102 -p1 -b .cve6420
-%patch103 -p1 -b .cve7226
-%patch104 -p1 -b .cve1943
-%patch105 -p1 -b .cve6712
-%patch106 -p1 -b .cve7327
-%patch107 -p1 -b .cve2270
-%patch108 -p1 -b .cve7345
-%patch109 -p1 -b .cve0237
-%patch110 -p1 -b .cve0238
-%patch111 -p1 -b .cve3479
-%patch112 -p1 -b .cve3480
-%patch113 -p1 -b .cve4721
-%patch114 -p1 -b .cve4049
-%patch115 -p1 -b .cve3515
-%patch116 -p1 -b .cve0207
-%patch117 -p1 -b .cve3487
-%patch118 -p1 -b .cve2497
-%patch119 -p1 -b .cve3478
-%patch120 -p1 -b .cve3538
-%patch121 -p1 -b .cve3587
-%patch122 -p1 -b .cve5120
-%patch123 -p1 -b .cve4698
-%patch124 -p1 -b .cve4670
-%patch125 -p1 -b .cve3597
-%patch126 -p1 -b .cve3668
-%patch127 -p1 -b .cve3669
-%patch128 -p1 -b .cve3670
-%patch129 -p1 -b .cve3710
+%patch43 -p1 -b .phpize
+%patch100 -p1 -b .cpanelmailheader
 
 
 # Prevent %%doc confusion over LICENSE files
@@ -1126,7 +1032,7 @@ if test "x${vzend}" != "x%{zendver}"; then
 fi
 
 # Safety check for PDO ABI version change
-vpdo=`sed -n '/#define PDO_DRIVER_API/{s/.*[ 	]//;p}' ext/pdo/php_pdo_driver.h`
+vpdo=`awk '/^#define PDO_DRIVER_API/ { print $3 } ' ext/pdo/php_pdo_driver.h`
 if test "x${vpdo}" != "x%{pdover}"; then
    : Error: Upstream PDO ABI version is now ${vpdo}, expecting %{pdover}.
    : Update the pdover macro and rebuild.
@@ -1134,9 +1040,9 @@ if test "x${vpdo}" != "x%{pdover}"; then
 fi
 
 # Check for some extension version
-ver=$(sed -n '/#define ACCELERATOR_VERSION /{s/.* "//;s/".*$//;p}' ext/opcache/ZendAccelerator.h)
+ver=$(sed -n '/#define PHP_ZENDOPCACHE_VERSION /{s/.* "//;s/".*$//;p}' ext/opcache/ZendAccelerator.h)
 if test "$ver" != "%{opcachever}"; then
-   : Error: Upstream ACCELERATOR_VERSION version is now ${ver}, expecting %{opcachever}.
+   : Error: Upstream PHP_ZENDOPCACHE_VERSION version is now ${ver}, expecting %{opcachever}.
    : Update the opcachever macro and rebuild.
    exit 1
 fi
@@ -1230,7 +1136,6 @@ ln -sf ../configure
     --with-pic \
     --disable-rpath \
     --without-pear \
-    --with-exec-dir=%{_bindir} \
     --with-freetype-dir=%{_root_prefix} \
     --with-png-dir=%{_root_prefix} \
     --with-xpm-dir=%{_root_prefix} \
@@ -1491,8 +1396,6 @@ install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/php.ini
 # For third-party packaging:
 install -m 755 -d $RPM_BUILD_ROOT%{_datadir}/php
 
-sed -e 's/libphp5/lib%{name}5/' %{SOURCE9} >modconf
-
 %if %{with_httpd}
 # install the DSO
 install -m 755 -d $RPM_BUILD_ROOT%{_httpd_moddir}
@@ -1506,18 +1409,6 @@ install -m 755 -d $RPM_BUILD_ROOT%{_root_httpd_moddir}
 ln -s %{_httpd_moddir}/libphp5.so      $RPM_BUILD_ROOT%{_root_httpd_moddir}/lib%{name}5.so
 %endif
 
-%if "%{_httpd_modconfdir}" == "%{_httpd_confdir}"
-# Single config file with httpd < 2.4 (RHEL <= 6)
-install -D -m 644 modconf $RPM_BUILD_ROOT%{_httpd_confdir}/%{name}.conf
-cat %{SOURCE1} >>$RPM_BUILD_ROOT%{_httpd_confdir}/%{name}.conf
-%else
-# Dual config file with httpd >= 2.4 (RHEL >= 7)
-install -D -m 644 modconf    $RPM_BUILD_ROOT%{_httpd_modconfdir}/10-%{name}.conf
-install -D -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_httpd_confdir}/%{name}.conf
-%endif
-
-sed -e 's:/var/lib:%{_localstatedir}/lib:' \
-    -i $RPM_BUILD_ROOT%{_httpd_confdir}/%{name}.conf
 %endif
 
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php.d
@@ -1798,10 +1689,6 @@ fi
 %endif
 %attr(0770,root,apache) %dir %{_localstatedir}/lib/php/session
 %attr(0770,root,apache) %dir %{_localstatedir}/lib/php/wsdlcache
-%config(noreplace) %{_httpd_confdir}/%{name}.conf
-%if "%{_httpd_modconfdir}" != "%{_httpd_confdir}"
-%config(noreplace) %{_httpd_modconfdir}/10-%{name}.conf
-%endif
 %{_httpd_contentdir}/icons/%{name}.gif
 %endif
 
