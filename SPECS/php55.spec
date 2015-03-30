@@ -132,11 +132,6 @@
 %global with_systemd 1
 %endif
 
-%if 0%{?rhel} < 7
-%global with_libzip  0
-%else
-%global with_libzip  1
-%endif
 %global with_zip     1
 
 %if 0%{?fedora} < 18 && 0%{?rhel} < 7
@@ -149,7 +144,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.22
-Release:  0%{?dist}
+Release:  1%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -208,10 +203,6 @@ BuildRequires: pcre-devel >= 8.10
 %endif
 BuildRequires: bzip2, perl, libtool >= 1.4.3, gcc-c++
 BuildRequires: libtool-ltdl-devel
-%if %{with_libzip}
-BuildRequires: libzip-devel >= 0.10
-BuildRequires: libzip-devel <  0.11
-%endif
 %if %{with_dtrace}
 BuildRequires: python
 BuildRequires: systemtap-sdt-devel
@@ -501,6 +492,7 @@ Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 BuildRequires: krb5-devel, openssl-devel, libc-client-devel
+Conflicts: %{?scl_prefix}php-recode = %{version}-%{release}
 
 %description imap
 The php-imap module will add IMAP (Internet Message Access Protocol)
@@ -917,6 +909,7 @@ Group: System Environment/Libraries
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 BuildRequires: recode-devel
+Conflicts: %{?scl_prefix}php-imap = %{version}-%{release}
 
 %description recode
 The php-recode package contains a dynamic shared object that will add
@@ -1238,9 +1231,6 @@ build --libdir=%{_libdir}/php \
       --enable-json=shared \
 %if %{with_zip}
       --enable-zip=shared \
-%if %{with_libzip}
-      --with-libzip \
-%endif
 %endif
       --without-readline \
 %if %{with_libedit}
@@ -1580,7 +1570,6 @@ cat files.pdo_sqlite >> files.pdo
 %if %{with_sqlite3}
 cat files.sqlite3 >> files.pdo
 %endif
-
 # Package json and phar in -common.
 cat files.json files.phar \
     files.ctype \
@@ -1844,6 +1833,9 @@ fi
 
 
 %changelog
+* Mon Mar 30 2015 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.22-1
+- Set imap and recode to be incompatible
+
 * Tue Mar 15 2015 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.22-0
 - Updated to PHP 5.5.22
 - Made compatible with EA web server namespace
