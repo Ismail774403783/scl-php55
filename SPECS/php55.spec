@@ -1522,10 +1522,10 @@ do
     else   ini=${mod}.ini
     fi
     # some extensions have their own config file
-    if [ -f ${ini} ]; then
-      cp -p ${ini} $RPM_BUILD_ROOT%{_sysconfdir}/php.d/${ini}
+    if [ -f %{_sourcedir}/$ini ]; then
+      cp -p %{_sourcedir}/$ini %{buildroot}%{_sysconfdir}/php.d/$ini
     else
-      cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/${ini} <<EOF
+      cat > %{buildroot}%{_sysconfdir}/php.d/$ini <<EOF
 ; Enable ${mod} extension module
 extension=${mod}.so
 EOF
@@ -1835,6 +1835,7 @@ fi
 %changelog
 * Mon Mar 30 2015 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.22-1
 - Set imap and recode to be incompatible
+- developer version of opcache.ini is distributed instead of auto-gen
 
 * Tue Mar 15 2015 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.22-0
 - Updated to PHP 5.5.22
