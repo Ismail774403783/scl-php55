@@ -21,7 +21,7 @@
 %global embed_version 5.5
 
 # Ugly hack. Harcoded values to avoid relocation.
-%global _httpd_mmn         %(cat %{_root_includedir}/apache2/.mmn 2>/dev/null || echo missing-ea-apache2-devel)
+%global _httpd_mmn         %(cat %{_root_includedir}/apache2/.mmn 2>/dev/null || echo missing-ea-apache24-devel)
 %global _httpd_confdir     %{_root_sysconfdir}/apache2/conf.d
 %global _httpd_moddir      %{_libdir}/apache2/modules
 %global _root_httpd_moddir %{_root_libdir}/apache2/modules
@@ -144,7 +144,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.22
-Release:  1%{?dist}
+Release:  2%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -211,12 +211,12 @@ BuildRequires: systemtap-sdt-devel
 
 
 %if %{with_httpd}
-BuildRequires: ea-apache2-devel
+BuildRequires: ea-apache24-devel
 # NOTE: Typically 2 additional BuildRequires: statements are needed to let
 # the RPM dependency solver know what mpm and cgi module to install.  However,
 # we're using an OBS-centric Project Config called, Prefer: which does this
 # for us.
-Requires: ea-apache2-mmn = %{_httpd_mmn}
+Requires: ea-apache24-mmn = %{_httpd_mmn}
 Provides: %{?scl_prefix}mod_php = %{version}-%{release}
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 # To ensure correct /var/lib/php/session ownership:
@@ -1833,6 +1833,9 @@ fi
 
 
 %changelog
+* Wed May 26 2015 Dan Muey <dan@cpanel.net> 5.5.22-2
+- Change ea-apache2 to ea-apache24
+
 * Mon Mar 30 2015 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.22-1
 - Set imap and recode to be incompatible
 - developer version of opcache.ini is distributed instead of auto-gen
