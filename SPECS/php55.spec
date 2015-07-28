@@ -144,7 +144,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.22
-Release:  1%{?dist}
+Release:  2%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -226,6 +226,8 @@ Requires(pre): ea-webserver
 # For backwards-compatibility, require php-cli for the time being:
 Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 
+# For the ea-php-cli wrapper rpm
+Requires: ea-php-cli
 
 # Don't provides extensions, which are not shared library, as .so
 %{?filter_provides_in: %filter_provides_in %{_libdir}/php/modules/.*\.so$}
@@ -1833,6 +1835,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2015 Darren Mobley <darren@cpanel.net> 5.5.22-2
+- Added ea-php-cli requirement
+
 * Mon Mar 30 2015 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.22-1
 - Set imap and recode to be incompatible
 - developer version of opcache.ini is distributed instead of auto-gen
