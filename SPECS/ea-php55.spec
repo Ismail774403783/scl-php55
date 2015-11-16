@@ -146,7 +146,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.30
-Release:  2%{?dist}
+Release:  3%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1435,6 +1435,7 @@ install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf
 sed -e 's:/var/lib:%{_localstatedir}/lib:' \
     -e 's:/var/log:%{_localstatedir}/log:' \
     -i $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf
+mv $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf.example
 mv $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf.default .
 # tmpfiles.d
 # install -m 755 -d $RPM_BUILD_ROOT%{_prefix}/lib/tmpfiles.d
@@ -1734,7 +1735,7 @@ fi
 %doc php-fpm.conf.default
 %doc fpm_LICENSE
 %config(noreplace) %{_sysconfdir}/php-fpm.conf
-%config(noreplace) %{_sysconfdir}/php-fpm.d/www.conf
+%config(noreplace) %{_sysconfdir}/php-fpm.d/www.conf.example
 %config(noreplace) %{_root_sysconfdir}/logrotate.d/%{?scl_prefix}php-fpm
 %config(noreplace) %{_sysconfdir}/sysconfig/php-fpm
 # %{_prefix}/lib/tmpfiles.d/php-fpm.conf
@@ -1839,6 +1840,9 @@ fi
 
 
 %changelog
+* Fri Nov 13 2015 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.30-3
+- Rename www.conf to www.conf.example
+
 * Mon Oct 12 2015 Dan Muey <dan@cpanel.net> - 5.5.30-2
 - Use libphp5.so as module name for simplicity/consistency
 
