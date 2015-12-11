@@ -146,7 +146,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.30
-Release:  4%{?dist}
+Release:  5%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -180,6 +180,7 @@ Patch43: php-5.4.0-phpize.centos.patch
 
 # cPanel patches
 Patch100: php-5.5.x-mail-header.cpanel.patch
+Patch101: php-5.x-disable-zts.patch
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -973,6 +974,7 @@ inside them.
 %patch42 -p1 -b .systzdata
 %patch43 -p1 -b .phpize
 %patch100 -p1 -b .cpanelmailheader
+%patch101 -p1 -b .disablezts
 
 
 # Prevent %%doc confusion over LICENSE files
@@ -1841,6 +1843,9 @@ fi
 
 
 %changelog
+* Fri Dec 11 2015 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.30-5
+- Disable ZTS support
+
 * Wed Dec 09 2015 Dan Muey <dan@cpanel.net> - 5.5.30-4
 - make ea-php5x-php-fpm depend on ea-php5X-php-cli
 
