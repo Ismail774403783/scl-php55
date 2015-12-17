@@ -146,7 +146,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.30
-Release:  5%{?dist}
+Release:  6%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1843,6 +1843,9 @@ fi
 
 
 %changelog
+* Thu Dec 17 2015 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.30-6
+- Enabled short_open_tags
+
 * Fri Dec 11 2015 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.30-5
 - Disable ZTS support
 
