@@ -145,8 +145,8 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.5.30
-Release:  7%{?dist}
+Version:  5.5.31
+Release:  1%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1844,6 +1844,9 @@ fi
 
 
 %changelog
+* Thu Jan 07 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.31-1
+- Updated to version 5.5.31 via update_pkg.pl (EA-4050)
+
 * Thu Dec 17 2015 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.30-7
 - mod_php requires a non-threaded Apache mpm (EA-3982)
 
