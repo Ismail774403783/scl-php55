@@ -1850,7 +1850,7 @@ fi
 - Updated to version 5.5.32 via update_pkg.pl (EA-4127)
 
 * Tue Feb 02 2016 David Nielson <david.nielson@cpanel.net> - 5.5.31-2
-- Improve DSO conflicts
+- Improve DSO conflicts (EA-3751)
 
 * Thu Jan 07 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.31-1
 - Updated to version 5.5.31 via update_pkg.pl (EA-4050)
