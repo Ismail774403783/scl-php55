@@ -143,7 +143,7 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.5.31
+Version:  5.5.32
 Release:  2%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1840,9 +1840,12 @@ fi
 
 
 %changelog
-* Fri Feb 04 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.31-2
+* Mon Feb 08 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.32-2
 - Added imap extension for all CentOS versions.  It now depends on
   our internal SCL libc-client package.
+
+* Thu Feb 04 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.32-1
+- Updated to version 5.5.32 via update_pkg.pl (EA-4127)
 
 * Thu Jan 07 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.31-1
 - Updated to version 5.5.31 via update_pkg.pl (EA-4050)
