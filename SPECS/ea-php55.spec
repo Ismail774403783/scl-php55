@@ -221,6 +221,8 @@ BuildRequires: ea-apache24-devel
 # for us.
 Requires: ea-apache24-mmn = %{_httpd_mmn}
 Provides: %{?scl_prefix}mod_php = %{version}-%{release}
+Provides: ea-mod_php%{?_isa} = %{version}-%{release}
+Conflicts: ea-mod_php
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 # To ensure correct /var/lib/php/session ownership:
 Requires(pre): ea-webserver
@@ -1846,6 +1848,9 @@ fi
 %changelog
 * Thu Feb 04 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.32-1
 - Updated to version 5.5.32 via update_pkg.pl (EA-4127)
+
+* Tue Feb 02 2016 David Nielson <david.nielson@cpanel.net> - 5.5.31-2
+- Improve DSO conflicts (EA-3751)
 
 * Thu Jan 07 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.31-1
 - Updated to version 5.5.31 via update_pkg.pl (EA-4050)
