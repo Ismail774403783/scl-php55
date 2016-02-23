@@ -144,7 +144,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.32
-Release:  2%{?dist}
+Release:  3%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -219,8 +219,8 @@ BuildRequires: ea-apache24-devel
 # for us.
 Requires: ea-apache24-mmn = %{_httpd_mmn}
 Provides: %{?scl_prefix}mod_php = %{version}-%{release}
-Provides: ea-mod_php, ea-mod_php%{?_isa} = %{version}-%{release}
-Conflicts: ea-mod_php
+Provides: ea-mod_php = %{embed_version}
+Conflicts: ea-mod_php > %{embed_version}, ea-mod_php < %{embed_version}
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 # To ensure correct /var/lib/php/session ownership:
 Requires(pre): ea-webserver
@@ -1842,6 +1842,11 @@ fi
 
 
 %changelog
+* Fri Feb 19 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.32-3
+- mod_php adjusted to conflict with other mod_php versions, and
+  not itself.  this lets the user reinstall the package without
+  conflict. (ZC-1459)
+
 * Mon Feb 08 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.32-2
 - Added imap extension for all CentOS versions.  It now depends on
   our internal SCL libc-client package.
