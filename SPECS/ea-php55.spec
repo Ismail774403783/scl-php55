@@ -139,8 +139,8 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.5.34
-Release:  2%{?dist}
+Version:  5.5.35
+Release:  1%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1810,6 +1810,9 @@ fi
 
 
 %changelog
+* Thu Apr 28 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.35-1
+- Updated to version 5.5.35 via update_pkg.pl (EA-4483)
+
 * Thu Apr 07 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.34-2
 - Now uses bundled gd (ZC-1563)
 - Updated descriptions to use scl_prefix macros (like php7)
