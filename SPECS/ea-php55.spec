@@ -139,7 +139,7 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.5.35
+Version:  5.5.36
 Release:  1%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1810,6 +1810,9 @@ fi
 
 
 %changelog
+* Thu May 26 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.36-1
+- Updated to version 5.5.36 via update_pkg.pl (EA-4624)
+
 * Thu Apr 28 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.35-1
 - Updated to version 5.5.35 via update_pkg.pl (EA-4483)
 
