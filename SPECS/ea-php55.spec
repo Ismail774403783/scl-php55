@@ -144,7 +144,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.36
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 3
+%define release_prefix 5 
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -180,7 +180,7 @@ Patch43: php-5.4.0-phpize.centos.patch
 # cPanel patches
 Patch100: php-5.5.x-mail-header.cpanel.patch
 Patch101: php-5.x-disable-zts.patch
-
+Patch102: php-5.5.x-ea4-ini.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -223,7 +223,6 @@ Provides: %{?scl_prefix}mod_php = %{version}-%{release}
 Provides: ea-mod_php = %{embed_version}
 Conflicts: ea-mod_php > %{embed_version}, ea-mod_php < %{embed_version}
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
-# To ensure correct /var/lib/php/session ownership:
 Requires(pre): ea-webserver
 Requires: ea-apache24-mpm = forked
 %endif
@@ -971,6 +970,7 @@ inside them.
 %patch43 -p1 -b .phpize
 %patch100 -p1 -b .cpanelmailheader
 %patch101 -p1 -b .disablezts
+%patch102 -p1 -b .cpanelea4ini
 
 
 # Prevent %%doc confusion over LICENSE files
@@ -1408,9 +1408,7 @@ ln -s %{_httpd_moddir}/libphp5.so      $RPM_BUILD_ROOT%{_root_httpd_moddir}/libp
 %endif
 
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php.d
-install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php
-install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php/session
-install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php/wsdlcache
+install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/lib
 
 %if %{with_lsws}
 install -m 755 build-apache/sapi/litespeed/php $RPM_BUILD_ROOT%{_bindir}/lsphp
@@ -1687,12 +1685,8 @@ fi
 %if %{with_httpd}
 %{_httpd_moddir}/libphp5.so
 %if 0%{?scl:1}
-#%dir %{_libdir}/apache2
-#%dir %{_libdir}/apache2/modules
 %{_root_httpd_moddir}/libphp5.so
 %endif
-%attr(0770,root,apache) %dir %{_localstatedir}/lib/php/session
-%attr(0770,root,apache) %dir %{_localstatedir}/lib/php/wsdlcache
 %{_httpd_contentdir}/icons/%{name}.gif
 %endif
 
@@ -1707,7 +1701,7 @@ fi
 %dir %{_sysconfdir}/php.d
 %dir %{_libdir}/php
 %dir %{_libdir}/php/modules
-%dir %{_localstatedir}/lib/php
+%dir %{_localstatedir}/lib
 %dir %{_datadir}/php
 
 %files cli
@@ -1838,11 +1832,17 @@ fi
 
 
 %changelog
-* Mon Jun 20 2016 Dan Muey <dan@cpanel.net> - 5.5.36-3
+* Mon Jun 20 2016 Dan Muey <dan@cpanel.net> - 5.5.36-5
 - EA-4383: Update Release value to OBS-proof versioning
 
+* Tue Jun 14 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.36-4
+- Removed unused global wsdl and session cache directories (EA-4691)
+
+* Mon Jun 13 2016 Jacob Perkins <jacob.perkins@cpanel.net> 5.5.36-3
+- Added EasyApache 3 backwards compatibility php.ini patch (EA-4664) 
+
 * Tue May 31 2016 Jacob Perkins <jacob.perkins@cpanel.net> 5.5.36-2
-* Enabled PHP-Litespeed package
+- Enabled PHP-Litespeed package
 
 * Thu May 26 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.36-1
 - Updated to version 5.5.36 via update_pkg.pl (EA-4624)
