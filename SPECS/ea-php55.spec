@@ -142,7 +142,7 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.5.36
+Version:  5.5.37
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
 %define release_prefix 5 
 Release: %{release_prefix}%{?dist}.cpanel
@@ -1832,6 +1832,9 @@ fi
 
 
 %changelog
+* Mon Jun 27 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.37-1
+- Updated to version 5.5.37 via update_pkg.pl (EA-4730)
+
 * Mon Jun 20 2016 Dan Muey <dan@cpanel.net> - 5.5.36-5
 - EA-4383: Update Release value to OBS-proof versioning
 
