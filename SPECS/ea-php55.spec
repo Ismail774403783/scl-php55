@@ -144,7 +144,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.37
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 5 
+%define release_prefix 6 
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1832,6 +1832,9 @@ fi
 
 
 %changelog
+* Thu Jun 30 2016 Julian Brown <julian.brown@cpanel.net> - 5.5.37-6
+- PHP-FPM + .user.ini allows code execution as other users
+
 * Mon Jun 27 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.37-1
 - Updated to version 5.5.37 via update_pkg.pl (EA-4730)
 
