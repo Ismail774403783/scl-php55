@@ -144,7 +144,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.37
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 5 
+%define release_prefix 7
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -181,6 +181,7 @@ Patch43: php-5.4.0-phpize.centos.patch
 Patch100: php-5.5.x-mail-header.cpanel.patch
 Patch101: php-5.x-disable-zts.patch
 Patch102: php-5.5.x-ea4-ini.patch
+Patch104: php-5.5.x-fpm-user-ini-docroot.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -971,6 +972,7 @@ inside them.
 %patch100 -p1 -b .cpanelmailheader
 %patch101 -p1 -b .disablezts
 %patch102 -p1 -b .cpanelea4ini
+%patch104 -p1 -b .fpmuserini
 
 
 # Prevent %%doc confusion over LICENSE files
@@ -1832,6 +1834,12 @@ fi
 
 
 %changelog
+* Fri Jul 01 2016 Darren Mobley <darren@cpanel.net> - 5.5.37-7
+- Apply previous patch code in spec file
+
+* Thu Jun 30 2016 Julian Brown <julian.brown@cpanel.net> - 5.5.37-6
+- PHP-FPM + .user.ini allows code execution as other users
+
 * Mon Jun 27 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.37-1
 - Updated to version 5.5.37 via update_pkg.pl (EA-4730)
 
