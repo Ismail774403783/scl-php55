@@ -144,7 +144,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.38
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 1
+%define release_prefix 2
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1739,7 +1739,7 @@ fi
 %{_root_initddir}/%{?scl_prefix}php-fpm
 %endif
 %{_sbindir}/php-fpm
-%dir %{_sysconfdir}/php-fpm.d
+%attr(0710,root,root) %dir %{_sysconfdir}/php-fpm.d
 # log owned by apache for log
 %attr(770,apache,root) %dir %{_localstatedir}/log/php-fpm
 %dir %{_localstatedir}/run/php-fpm
@@ -1834,6 +1834,9 @@ fi
 
 
 %changelog
+* Thu Sep 01 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.5.38-2
+- Changed php-fpm.d directory to 0710 (EA-5097)
+
 * Fri Jul 22 2016 Edwin Buck <e.buck@cpanel.net> - 5.5.38-1
 - update PHP 5.5 to release 5.5.38 (EA-4886)
 
