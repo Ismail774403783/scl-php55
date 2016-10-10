@@ -144,7 +144,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.38
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 3
+%define release_prefix 4
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1836,6 +1836,9 @@ fi
 
 
 %changelog
+* Wed Sep 28 2016 Jacob Perkins <jacob.perkins@cpanel.net> 5.5.38-4
+- Set register_argc_argv default on to match EasyApache 3
+
 * Tue Sep 13 2016 Matt Dees <matt@cpanel.net> - 5.5.38-3
 - Force users on jailshell and noshell to be chrooted when using php-fpm
 
