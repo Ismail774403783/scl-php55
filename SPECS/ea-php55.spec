@@ -144,7 +144,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.38
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 4
+%define release_prefix 5
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -264,6 +264,8 @@ Provides: %{?scl_prefix}php-readline = %{version}-%{release}, %{?scl_prefix}php-
 
 # For the ea-php-cli wrapper rpm
 Requires: ea-php-cli
+Requires: ea-php-cli-lsphp
+Requires: %{?scl_prefix}php-litespeed = %{version}-%{release}
 
 %description cli
 The %{?scl_prefix}php-cli package contains the command-line interface
@@ -1836,6 +1838,9 @@ fi
 
 
 %changelog
+* Thu Nov 17 2016 Edwin Buck <e.buck@cpanel.net> 5.5.38-5
+- Make php-cli require php-litespeed
+
 * Wed Sep 28 2016 Jacob Perkins <jacob.perkins@cpanel.net> 5.5.38-4
 - Set register_argc_argv default on to match EasyApache 3
 
