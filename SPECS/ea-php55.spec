@@ -78,7 +78,7 @@
 %global with_interbase 0
 %global with_mssql     0
 %endif
-%if 0%{?fedora} || 0%{?rhel} == 6
+%if 0%{?fedora} || 0%{?rhel} >= 6
 %global with_tidy      1
 %else
 %global with_tidy      0
@@ -144,7 +144,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.38
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 9
+%define release_prefix 10
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1827,8 +1827,11 @@ fi
 
 
 %changelog
-* Thu Jan 26 2017 Dan Muey <dan@cpanel.net> - 5.5.38-9
+* Thu Feb 03 2017 Dan Muey <dan@cpanel.net> - 5.5.38-10
 - EA-5839: Add opcache.validate_permission to opcache ini
+
+* Mon Jan 30 2017 Dan Muey <dan@cpanel.net> - 5.5.38-9
+- EA-5807: enable php-tidy on rhel 6 and above
 
 * Mon Dec 05 2016 Dan Muey <dan@cpanel.net> - 5.5.38-8
 - EA-3685: do not create apache user/group since we use nobody
