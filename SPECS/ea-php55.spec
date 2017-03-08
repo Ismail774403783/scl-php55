@@ -69,6 +69,8 @@
 %global with_embed     1
 %endif
 
+%global with_curl      1
+%global libcurl_prefix /opt/cpanel/libcurl
 %global with_mcrypt    1
 %global mcrypt_prefix  /opt/cpanel/libmcrypt
 %if 0%{?fedora}
@@ -145,7 +147,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.38
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 11
+%define release_prefix 12
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -187,7 +189,7 @@ Patch105: php-5.5.x-fpm-jailshell.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires: bzip2-devel, curl-devel >= 7.9, %{db_devel}
+BuildRequires: bzip2-devel, %{ns_name}-libcurl, %{ns_name}-libcurl-devel, %{db_devel}
 BuildRequires: pam-devel
 BuildRequires: libstdc++-devel, openssl-devel, scl-utils-build
 %if %{with_sqlite3}
@@ -416,10 +418,11 @@ Summary: A module for PHP applications that need to interface with curl
 Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{ns_name}-libcurl
 Provides: %{?scl_prefix}php-curl = %{version}-%{release}, %{?scl_prefix}php-curl%{?_isa} = %{version}-%{release}
 
 %description curl
-The php-calendar package delivers a module which will allow PHP
+The php-curl package delivers a module which will allow PHP
 scripts to connect and communicate to many different types of servers
 with many different types of protocols. libcurl currently supports the
 http, https, ftp, gopher, telnet, dict, file, and ldap
@@ -1219,7 +1222,7 @@ build --libdir=%{_libdir}/php \
       --enable-soap=shared \
       --with-xsl=shared,%{_root_prefix} \
       --enable-xmlreader=shared --enable-xmlwriter=shared \
-      --with-curl=shared,%{_root_prefix} \
+      --with-curl=shared,%{libcurl_prefix} \
       --enable-pdo=shared \
       --with-pdo-odbc=shared,unixODBC,%{_root_prefix} \
       --with-pdo-mysql=shared,mysqlnd \
@@ -1829,6 +1832,9 @@ fi
 
 
 %changelog
+* Wed Mar 08 2017 Cory McIntire <cory@cpanel.net> - 5.5.37-12
+- EA-2422: Have PHPs use our ea-libcurl
+
 * Mon Feb 06 2017 Dan Muey <dan@cpanel.net> - 5.5.37-11
 - EA-5946: force requirement of ea-libtidy instead of .so from BuildRequires ea-libtidy-devel
 
