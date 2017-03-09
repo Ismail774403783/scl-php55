@@ -147,7 +147,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.38
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 12
+%define release_prefix 13
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -419,6 +419,7 @@ Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 Requires: %{ns_name}-libcurl
+BuildRequires: libssh2 libssh2-devel libidn libidn-devel
 Provides: %{?scl_prefix}php-curl = %{version}-%{release}, %{?scl_prefix}php-curl%{?_isa} = %{version}-%{release}
 
 %description curl
@@ -1832,10 +1833,13 @@ fi
 
 
 %changelog
-* Wed Mar 08 2017 Cory McIntire <cory@cpanel.net> - 5.5.37-12
+* Thu Mar 09 2017 Cory McIntire <cory@cpanel.net> - 5.5.38-13
+- ZC-2475: PHPs need build reqs when building for libcurl
+
+* Wed Mar 08 2017 Cory McIntire <cory@cpanel.net> - 5.5.38-12
 - EA-2422: Have PHPs use our ea-libcurl
 
-* Mon Feb 06 2017 Dan Muey <dan@cpanel.net> - 5.5.37-11
+* Mon Feb 06 2017 Dan Muey <dan@cpanel.net> - 5.5.38-11
 - EA-5946: force requirement of ea-libtidy instead of .so from BuildRequires ea-libtidy-devel
 
 * Fri Feb 03 2017 Dan Muey <dan@cpanel.net> - 5.5.38-10
@@ -1885,7 +1889,7 @@ fi
 - Removed unused global wsdl and session cache directories (EA-4691)
 
 * Mon Jun 13 2016 Jacob Perkins <jacob.perkins@cpanel.net> 5.5.36-3
-- Added EasyApache 3 backwards compatibility php.ini patch (EA-4664) 
+- Added EasyApache 3 backwards compatibility php.ini patch (EA-4664)
 
 * Tue May 31 2016 Jacob Perkins <jacob.perkins@cpanel.net> 5.5.36-2
 - Enabled PHP-Litespeed package
