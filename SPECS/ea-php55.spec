@@ -114,11 +114,7 @@
 %global isasuffix %nil
 %endif
 
-%if 0%{?fedora} < 12 && 0%{?rhel} < 6
 %global with_dtrace 0
-%else
-%global with_dtrace 1
-%endif
 
 # libvpx is needed by the gd extension to provide webp support.
 # it's currently provided on centos 6 & 7
@@ -147,7 +143,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.38
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 15
+%define release_prefix 16
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1834,6 +1830,9 @@ fi
 
 
 %changelog
+* Tue Apr 25 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.38-16
+- Disable dtrace functionality since CentOS does not provide dtrace via repos.
+
 * Fri Apr 21 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.38-15
 - EA-6203: Correct OpCache blacklist directory
 
