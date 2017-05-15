@@ -143,7 +143,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.38
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 17
+%define release_prefix 18
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -674,7 +674,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
-BuildRequires: libxml2-devel
+BuildRequires: ea-libxml2-devel
 
 %description soap
 The %{?scl_prefix}php-soap package contains a dynamic shared object that will add
@@ -746,7 +746,7 @@ Provides: %{?scl_prefix}php-xmlreader = %{version}-%{release}, %{?scl_prefix}php
 Provides: %{?scl_prefix}php-xmlwriter = %{version}-%{release}, %{?scl_prefix}php-xmlwriter%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-xsl = %{version}-%{release}, %{?scl_prefix}php-xsl%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-simplexml = %{version}-%{release}, %{?scl_prefix}php-simplexml%{?_isa} = %{version}-%{release}
-BuildRequires: libxslt-devel >= 1.0.18-1, libxml2-devel >= 2.4.14-1
+BuildRequires: libxslt-devel >= 1.0.18-1, ea-libxml2-devel >= 2.4.14-1
 
 %description xml
 The %{?scl_prefix}php-xml package contains dynamic shared objects which add support
@@ -1157,7 +1157,7 @@ ln -sf ../configure
     --enable-sockets \
     --with-kerberos \
     --enable-shmop \
-    --with-libxml-dir=%{_root_prefix} \
+    --with-libxml-dir=/opt/cpanel/ea-libxml2 \
     --enable-xml \
     --with-system-tzdata \
     --with-mhash \
@@ -1837,6 +1837,9 @@ fi
 
 
 %changelog
+* Tue May 09 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.38-18
+- Switch libxml2 to cPanel distributed packages
+
 * Fri May 05 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.5.38-17
 - EA-6063: Add ea-php55 binary symlinks to /usr/bin and /usr/local/bin
 
