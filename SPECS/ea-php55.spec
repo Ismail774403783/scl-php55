@@ -1361,9 +1361,9 @@ unset NO_INTERACTION REPORT_EXIT_STATUS MALLOC_CHECK_
 
 %install
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/usr/bin
-ln -sf /opt/cpanel/ea-php55/root/usr/bin/php $RPM_BUILD_ROOT/usr/local/bin/ea-php55
 install -d $RPM_BUILD_ROOT/usr/local/bin
+ln -sf /opt/cpanel/ea-php55/root/usr/bin/php $RPM_BUILD_ROOT/usr/local/bin/ea-php55
+install -d $RPM_BUILD_ROOT/usr/bin
 ln -sf /opt/cpanel/ea-php55/root/usr/bin/php-cgi $RPM_BUILD_ROOT/usr/bin/ea-php55
 
 %if %{with_embed}
