@@ -1839,7 +1839,7 @@ fi
 
 
 %changelog
-* Tue Oct 03 2017 <cory@cpanel.net> - 5.5.38-27
+* Tue Oct 14 2017 <cory@cpanel.net> - 5.5.38-27
 - EA-4653: Update mail header patch for PHP 5.5
 
 * Fri Oct 13 2017 Tim Mullin <tim@cpanel.net> - 5.5.38-26
