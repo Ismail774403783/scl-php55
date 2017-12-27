@@ -1163,7 +1163,7 @@ ln -sf ../configure
     --enable-sockets \
     --with-kerberos \
     --enable-shmop \
-    --with-libxml-dir=%{_root_prefix} \
+    --with-libxml-dir=/opt/cpanel/ea-libxml2 \
     --enable-xml \
     --with-system-tzdata \
     --with-mhash \
@@ -1843,7 +1843,7 @@ fi
 
 
 %changelog
-* Wed Dec 27 2017 <cory@cpanel.net> - 5.5.38-31
+* Thu Jan 11 2018 <cory@cpanel.net> - 5.5.38-31
 - EA-7044: Adjust PHPs to use ea-libxml2
 
 * Thu Jan 04 2018 <julian.brown@cpanel.net> - 5.5.38-30
