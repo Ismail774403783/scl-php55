@@ -146,7 +146,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.38
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 29
+%define release_prefix 30
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -186,6 +186,7 @@ Patch102: php-5.5.x-ea4-ini.patch
 Patch104: php-5.5.x-fpm-user-ini-docroot.patch
 Patch105: php-5.5.x-fpm-jailshell.patch
 Patch106: php-5.5.38-ftp-init-openssl.patch
+Patch200: php-fpm.epoll.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -983,6 +984,7 @@ inside them.
 %patch104 -p1 -b .fpmuserini
 %patch105 -p1 -b .fpmjailshell
 %patch106 -p1 -b .ftpinitopenssl
+%patch200 -p1 -b .fpmepoll
 sed -i 's/buffio.h/tidybuffio.h/' ext/tidy/*.c
 
 # Prevent %%doc confusion over LICENSE files
@@ -1841,6 +1843,9 @@ fi
 
 
 %changelog
+* Thu Jan 04 2018 <julian.brown@cpanel.net> - 5.5.38-30
+- HB-3061: Fix epoll bug.
+
 * Thu Dec 07 2017 <dan@cpanel.net> - 5.5.38-29
 - EA-7008: init openssl for FTP like 7.x does
 
