@@ -149,7 +149,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.38
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 37
+%define release_prefix 38
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -758,6 +758,7 @@ Provides: %{?scl_prefix}php-xmlwriter = %{version}-%{release}, %{?scl_prefix}php
 Provides: %{?scl_prefix}php-xsl = %{version}-%{release}, %{?scl_prefix}php-xsl%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-simplexml = %{version}-%{release}, %{?scl_prefix}php-simplexml%{?_isa} = %{version}-%{release}
 BuildRequires: libxslt-devel >= 1.0.18-1, ea-libxml2-devel >= 2.4.14-1
+Requires: ea-libxml2 >= 2.4.14-1
 
 %description xml
 The %{?scl_prefix}php-xml package contains dynamic shared objects which add support
@@ -1861,6 +1862,9 @@ fi
 
 
 %changelog
+* Tue Jun 5 2018 Rishwanth Yeddula <rish@cpanel.net> - 5.5.38-38
+- EA-7359: Ensure ea-libxml2 is listed as a requirement for the php-xml package.
+
 * Wed Apr 18 2018 Rishwanth Yeddula <rish@cpanel.net> - 5.5.38-37
 - ZC-3601: Update litespeed to the latest version (7.1).
 
