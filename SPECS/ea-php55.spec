@@ -149,7 +149,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.38
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 38
+%define release_prefix 39
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1774,6 +1774,11 @@ fi
 %{_mandir}/man8/php-fpm.8*
 %dir %{_datadir}/fpm
 %{_datadir}/fpm/status.html
+%dir %{_sysconfdir}/sysconfig
+%dir %{_sbindir}
+%dir %{_mandir}/man8
+%dir %{_localstatedir}/log
+%dir %{_localstatedir}/run
 %endif
 
 %if %{with_lsws}
@@ -1862,6 +1867,9 @@ fi
 
 
 %changelog
+* Wed Jul 18 2018 Tim Mullin <tim@cpanel.net> - 5.5.38-39
+- Fixed php-fpm installing directories it does not own (EA-7526)
+
 * Tue Jun 5 2018 Rishwanth Yeddula <rish@cpanel.net> - 5.5.38-38
 - EA-7359: Ensure ea-libxml2 is listed as a requirement for the php-xml package.
 
