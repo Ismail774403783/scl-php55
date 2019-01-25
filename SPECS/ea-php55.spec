@@ -149,7 +149,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.38
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 39
+%define release_prefix 40
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -159,7 +159,7 @@ Group:    Development/Languages
 URL:      http://www.php.net/
 
 Source0: http://www.php.net/distributions/php-%{version}%{?rcver}.tar.bz2
-Source1: https://www.litespeedtech.com/packages/lsapi/php-litespeed-7.1.tgz
+Source1: https://www.litespeedtech.com/packages/lsapi/php-litespeed-7.2.tgz
 Source2: php.ini
 Source3: macros.php
 Source4: php-fpm.conf
@@ -1867,6 +1867,9 @@ fi
 
 
 %changelog
+* Fri Jan 25 2019 Cory McIntire <cory@cpanel.net> - 5.5.38-40
+- EA-8170: Update litespeed to the latest version (7.2)
+
 * Wed Jul 18 2018 Tim Mullin <tim@cpanel.net> - 5.5.38-39
 - Fixed php-fpm installing directories it does not own (EA-7526)
 
