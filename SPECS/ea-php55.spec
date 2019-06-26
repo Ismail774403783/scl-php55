@@ -149,7 +149,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.5.38
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4580 for more details
-%define release_prefix 43
+%define release_prefix 44
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -159,7 +159,7 @@ Group:    Development/Languages
 URL:      http://www.php.net/
 
 Source0: http://www.php.net/distributions/php-%{version}%{?rcver}.tar.bz2
-Source1: https://www.litespeedtech.com/packages/lsapi/php-litespeed-7.3.tgz
+Source1: https://www.litespeedtech.com/packages/lsapi/php-litespeed-7.4.tgz
 Source2: php.ini
 Source3: macros.php
 Source4: php-fpm.conf
@@ -1867,6 +1867,9 @@ fi
 
 
 %changelog
+* Fri Jun 21 2019 Tim Mullin <tim@cpanel.net> - 5.5.38-44
+- EA-8538: Update litespeed from upstream to 7.4
+
 * Thu Apr 25 2019 Daniel Muey <dan@cpanel.net> - 5.5.38-43
 - ZC-5036: Add find-latest-version (assumes PHP is checked out next ro ea-tools)
 
